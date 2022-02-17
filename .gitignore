@@ -150,6 +150,7 @@ data/
 
 ### type pkl files ####
 *.pkl
+*.csv
 
 ### VS Code ###
 .vscode/

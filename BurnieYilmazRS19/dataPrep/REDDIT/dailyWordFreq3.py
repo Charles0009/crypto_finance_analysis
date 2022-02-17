@@ -60,7 +60,3 @@ def dailywordfreq(start, end, name_for_saving_processed):
 #     df2 = pd.read_pickle('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_041218.pkl')
 
 #     df2.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_0666.csv')
-
-
-# dailywordfreq( start=1630023150, 
-#                 end=1640823600   )

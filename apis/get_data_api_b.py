@@ -1,7 +1,9 @@
+import json
 from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
+from defer import return_value
 import pandas as pd
 import datetime
-
+import os
 
 
 api_key = "WA57b7Xw7jhd5P1t78Z3gj6AuB8D9iSgbaZJEs16TjyJCfw2ds8mIUJdQDqmAVXG"
@@ -10,6 +12,18 @@ client = Client(api_key, api_secret)
 
 
 
+
+
+def get_list_of_future_coins():
+    futures_exchange_info = client.futures_exchange_info()  # request info on all futures symbols
+    trading_pairs = [info['symbol'] for info in futures_exchange_info['symbols']]
+    return trading_pairs
+
+def get_exchange_infos():
+    
+
+    info = client.get_exchange_info()
+    return info
 
 def get_pd_daily_histo(pair, since):
         
@@ -80,6 +94,20 @@ def get_all_tickers():
     prices = client.get_all_tickers()    
     return(prices)
 
+def get_list_of_coins():
+    prices = client.get_all_tickers()   
+    return_list = list()
+    return_list_of_usdt_pairs = list()
+    for item in prices:
+        if 'USDT' in item['symbol']:
+            return_list_of_usdt_pairs.append(item['symbol'])
+
+    for i in return_list_of_usdt_pairs:
+        item = str(i)
+        return_list.append(item[:-4]) 
+        
+    return(return_list)
+
 def get_all_usdt_tickers():
     return_list_of_usdt_pairs = list()
     all = get_all_tickers()
@@ -89,4 +117,26 @@ def get_all_usdt_tickers():
 
     return(return_list_of_usdt_pairs)
 
+def get_list_of_crypto_names():
+    # Opening JSON file
+    chemin = os.getcwd()
+    f = open(chemin+'/crypto_json_names.json')
+    
+    # returns JSON object as
+    # a dictionary
+    data = json.load(f)
+    
+    # Iterating through the json
+    liste1 = get_list_of_coins()
+    new_liste = list()
+    for element in liste1:
+        try:
+            new_liste.append(data[element])
+        except KeyError:
+            pass
+    [x.lower() for x in new_liste]
 
+    new_liste = list(map(lambda x: x.lower(), new_liste))
+
+
+    return(new_liste)
