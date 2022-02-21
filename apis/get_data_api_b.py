@@ -46,6 +46,26 @@ def get_pd_daily_histo(pair, since):
     return(hist_df)
 
 
+def get_pd_daily_histo_between_dates(pair, since, end):
+        
+    ##### get historical data
+
+    historical = client.get_historical_klines(pair, Client.KLINE_INTERVAL_1DAY, since, end)
+    hist_df = pd.DataFrame(historical)
+    hist_df.columns = ['Open_Time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Close_Time', 'Quote_Asset_Volume', 
+                        'Number_of_Trades', 'TB_Base_Volume', 'TB_Quote_Volume', 'Ignore']
+
+    hist_df = hist_df.drop(['Quote_Asset_Volume', 'TB_Base_Volume', 'TB_Quote_Volume','Ignore'], axis=1)
+
+    hist_df['Open_Time'] = pd.to_datetime(hist_df['Open_Time']/1000, unit='s')
+    hist_df['Close_Time'] = pd.to_datetime(hist_df['Close_Time']/1000, unit='s')
+
+    numeric_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
+
+    hist_df[numeric_columns] = hist_df[numeric_columns].apply(pd.to_numeric, axis=1)
+
+    return(hist_df)
+
 def get_pd_hourly_histo(pair, since):
         
     ##### get historical data
