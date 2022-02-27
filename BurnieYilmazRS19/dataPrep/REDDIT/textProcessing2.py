@@ -3,8 +3,8 @@
 # ----------------------------------------------------------------------------------
 
 
-from text.processing import TextProcessor
-from text.dataHandling import DataHandling
+from  BurnieYilmazRS19.dataPrep.REDDIT.text.processing import TextProcessor
+from  BurnieYilmazRS19.dataPrep.REDDIT.text.dataHandling import DataHandling
 
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor

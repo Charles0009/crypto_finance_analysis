@@ -114,7 +114,7 @@ def get_all_tickers():
     prices = client.get_all_tickers()    
     return(prices)
 
-def get_list_of_coins():
+def get_list_of_symbols():
     prices = client.get_all_tickers()   
     return_list = list()
     return_list_of_usdt_pairs = list()
@@ -127,6 +127,13 @@ def get_list_of_coins():
         return_list.append(item[:-4]) 
         
     return(return_list)
+
+def change_pair_to_first_crypto_small_cap(name_crytpo, lenght_second_pair) :
+    name_crytpo = name_crytpo[:-lenght_second_pair]
+    #get to small caps
+    name_crytpo.lower()
+    return (name_crytpo)
+
 
 def get_all_usdt_tickers():
     return_list_of_usdt_pairs = list()
@@ -147,10 +154,11 @@ def get_list_of_crypto_names():
     data = json.load(f)
     
     # Iterating through the json
-    liste1 = get_list_of_coins()
+    liste1 = get_list_of_symbols()
     new_liste = list()
     for element in liste1:
         try:
+            new_liste.append(element)
             new_liste.append(data[element])
         except KeyError:
             pass

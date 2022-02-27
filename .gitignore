@@ -144,6 +144,7 @@ BurnieYilmazRS19/dataPrep/REDDIT/data
 BurnieYilmazRS19/dataPrep/REDDIT/text/__pycache__
 
 data/
+export/
 
 ### binance api ### 
 .environment_binance/

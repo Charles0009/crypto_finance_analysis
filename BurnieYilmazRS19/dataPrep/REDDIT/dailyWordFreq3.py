@@ -5,8 +5,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from text.dataHandling import DataHandling
-from text.vocabCounter import vocabCounter
+from  BurnieYilmazRS19.dataPrep.REDDIT.text.dataHandling import DataHandling
+from  BurnieYilmazRS19.dataPrep.REDDIT.text.vocabCounter import vocabCounter
 
 from collections import Counter
 from itertools import chain

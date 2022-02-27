@@ -1,6 +1,6 @@
-from dataExtracting1 import data_extracting
-from textProcessing2 import textprocess
-from dailyWordFreq3 import dailywordfreq
+from  BurnieYilmazRS19.dataPrep.REDDIT.dataExtracting1 import data_extracting
+from BurnieYilmazRS19.dataPrep.REDDIT. textProcessing2 import textprocess
+from  BurnieYilmazRS19.dataPrep.REDDIT.dailyWordFreq3 import dailywordfreq
 import os
 
 import datetime
@@ -12,10 +12,11 @@ import datetime
 
 
 def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
+   
     start_in_date = datetime.datetime.fromtimestamp(start_epoch)
     end_in_date = datetime.datetime.fromtimestamp(end_epoch)
-    print(" start date : " + start_in_date)
-    print(" start date : " + end_in_date)
+    print(" start date : " + str(start_in_date))
+    print(" start date : " + str(end_in_date))
 
 
     start_in_date = str(start_in_date)

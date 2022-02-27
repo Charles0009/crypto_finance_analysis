@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------
 
 
-from text.extracting import TextExtractor
+from  BurnieYilmazRS19.dataPrep.REDDIT.text.extracting import TextExtractor
 import pandas as pd
 import json
 import datetime 

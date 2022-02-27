@@ -6,3 +6,5 @@
 # iterating the columns
 for col in data.columns:
     print(col)
+
+
