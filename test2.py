@@ -14,9 +14,9 @@ import datetime
 #get token frequency 
 
 
-start = 1620656969
-end =   1645854725
-subreddit= 'CryptoCurrency'
+start = 1637656969
+end =   1640854725
+subreddit= 'altcoin'
 #crypto_pair = 'ETHUSDT'
 
 

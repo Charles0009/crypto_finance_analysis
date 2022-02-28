@@ -49,6 +49,6 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
                     end=end_epoch, 
                     name_for_saving_processed = name_for_saving_processed   )
 
-    print("name for savec file : " + name_for_saving_processed)
+    print("name for save file : " + name_for_saving_processed)
 
     return(name_for_saving_processed)

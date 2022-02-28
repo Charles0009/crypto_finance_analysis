@@ -24,10 +24,13 @@ def data_extracting(start, end, subreddit, name_for_file_extracting):
                 # end=1640823600   
          )
 
+        print(obj)
+
         #Extract data:
         try:
                 obj.extract_data()
         except TypeError:
+                print("type error in data extracting")
                 return('null')
 
         #Stores collected data in a dataframe:
