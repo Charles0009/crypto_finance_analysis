@@ -4,6 +4,7 @@
 
 import pandas as pd
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 from  BurnieYilmazRS19.dataPrep.REDDIT.text.dataHandling import DataHandling
 from  BurnieYilmazRS19.dataPrep.REDDIT.text.vocabCounter import vocabCounter
@@ -16,7 +17,9 @@ def dailywordfreq(start, end, name_for_saving_processed):
 
     print("Collecting Data")
     dataObj = DataHandling()
-    dataObj.collectData(dataPath='/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/', regexpr=r'^subTerms', verbose=True)
+    current_directory = str(os.getcwd())
+
+    dataObj.collectData(dataPath=current_directory+"/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/", regexpr=r'^subTerms', verbose=True)
     dataObj.aggData()
 
     data = dataObj.selectFirstFrame()

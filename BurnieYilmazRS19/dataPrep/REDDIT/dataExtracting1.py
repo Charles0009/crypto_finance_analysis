@@ -25,7 +25,10 @@ def data_extracting(start, end, subreddit, name_for_file_extracting):
          )
 
         #Extract data:
-        obj.extract_data()
+        try:
+                obj.extract_data()
+        except TypeError:
+                return('null')
 
         #Stores collected data in a dataframe:
         data = pd.DataFrame({

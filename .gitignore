@@ -152,6 +152,6 @@ export/
 ### type pkl files ####
 *.pkl
 *.csv
-
+*.png
 ### VS Code ###
 .vscode/

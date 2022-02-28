@@ -33,6 +33,7 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
 
     name_for_saving_processed = current_directory+'/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/'+name_for_file+'.pkl'
 
+    print("name for file processing : " + name_for_saving_processed)
 
     #call to the api for extraction
     print("data extracting")

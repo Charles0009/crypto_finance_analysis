@@ -158,8 +158,9 @@ def get_list_of_crypto_names():
     new_liste = list()
     for element in liste1:
         try:
-            new_liste.append(element)
             new_liste.append(data[element])
+            new_liste.append(element)
+
         except KeyError:
             pass
     [x.lower() for x in new_liste]

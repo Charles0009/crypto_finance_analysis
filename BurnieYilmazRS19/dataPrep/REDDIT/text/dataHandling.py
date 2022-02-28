@@ -88,5 +88,10 @@ class DataHandling(object):
         self.__dataList = [submissions.sort_values('time_stamp').reset_index(drop=True)]
 
     def outputDataFrames(self, folder, label):
+        current_directory = str(os.getcwd())
+
         for i, df in enumerate(self.__dataList):
-            exec(f'df.to_pickle("/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/{folder}/{label}_{i}.pkl")')
+
+
+            #path_for_file = current_directory+"/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/{folder}/{label}_{i}.pkl{folder}/{label}_{i}.pkl"
+            exec(f'df.to_pickle("{current_directory}/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/{folder}/{label}_{i}.pkl")')

@@ -14,29 +14,19 @@ import datetime
 #get token frequency 
 
 
-start = 1634251200
-end =   1644830527
-subreddit= 'CryptoMarkets'
+start = 1620656969
+end =   1645854725
+subreddit= 'CryptoCurrency'
 #crypto_pair = 'ETHUSDT'
 
 
 
 
 
-def save_plot_link_relation(start, end, subreddit, crypto_pair):
+def save_plot_link_relation(start, end, path_to_reddit_file, crypto_pair, path_to_dir_visuals):
 
 
-    #name_for_file_pickle_reddit = extract_full_reddit_token_frequency(start,end, subreddit)
-
-
-
-    current_directory = str(os.getcwd())
-    path_for_pickle_file = current_directory+'/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/TokenFreq/'+'CryptoMarkets_2021-10-15_2022-02-14'+'.pkl'
-
-
-    reddit = pd.read_pickle(path_for_pickle_file)
-    #reddit_sub = reddit['eth']
-
+    reddit = pd.read_pickle(path_to_reddit_file)
 
     df2 = reddit[reddit.columns[reddit.columns.isin( get_list_of_available_cryptos())]]
 
@@ -78,8 +68,10 @@ def save_plot_link_relation(start, end, subreddit, crypto_pair):
     end_text = pd.to_datetime(end, unit='s')
     end_text = end_text.strftime("%d %b %Y") 
 
-    dataframe = get_pd_daily_histo_between_dates(crypto_pair, start_text, end_text)
-
+    try:
+        dataframe = get_pd_daily_histo_between_dates(crypto_pair, start_text, end_text)
+    except ValueError:
+        return('null')
     combined_df = pd.merge(final_df, dataframe, on=['Open_Time'])
 
 
@@ -92,7 +84,7 @@ def save_plot_link_relation(start, end, subreddit, crypto_pair):
     plt.title(crypto_pair)
     #plt.show()
 
-    plt.savefig(chemin+'/export/visuals/'+crypto_pair+'_'+start_text+'_'+end_text+'.png')
+    plt.savefig(path_to_dir_visuals+"/"+crypto_pair+'_'+start_text+'_'+end_text+'.png')
 
     plt.clf()
 
@@ -118,14 +110,28 @@ liste_of_crypto_to_plot =  get_list_of_available_cryptos()
 liste_of_crypto_to_plot = list(map(lambda x: x.upper(), liste_of_crypto_to_plot))
 new_liste = list()
 for i in range(len(liste_of_crypto_to_plot)):
-    if i%2 == 0 :
+    if i%2 == 1 :
         element = liste_of_crypto_to_plot[i]
         new_liste.append(element+'USDT')
           
 print(new_liste)
 
+
+filepath = extract_full_reddit_token_frequency(start,end, subreddit)
+
+
+chemin2 = os.getcwd()
+chemin2= chemin2 + "/export/visuals/"
+
+# Path
+path = os.path.join(chemin2, subreddit)
+  
+print(path)
+os.mkdir(path)
+
+
 for name in new_liste:
     print(name)
-    save_plot_link_relation(start, end, subreddit, name)
+    save_plot_link_relation(start, end, filepath, name, path)
 
 
