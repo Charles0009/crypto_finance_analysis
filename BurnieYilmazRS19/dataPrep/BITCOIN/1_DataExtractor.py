@@ -31,18 +31,16 @@ def dataExtractor(field):
 
 print("Extract Data")
 data_list = [dataExtractor(field) for field in ['market-price',                          #price
-                                                'estimated-transaction-volume',          #bitcoin vol
+                                                'estimated-transaction-volume',          #vol
                                                 'estimated-transaction-volume-usd',      #USD vol
                                                 'trade-volume',                          #exchange vol
-                                                'n-unique-addresses',                    #no. used addresses
-                                                'my-wallet-n-users'                      #wallets
+                                                'n-unique-addresses'                    #no. used addresses
                                                 ]
                 ]
 
-#`Wallets` data not used because there were no datapoints 20 June 2017 onwards.
 
 print("Aggregate Data")
-reduce(lambda left, right: pd.merge(left, right, on = 'EpochDate', how = 'left'), data_list).to_csv('blockchain_info_051218.csv', index = False)
+reduce(lambda left, right: pd.merge(left, right, on = 'EpochDate', how = 'left'), data_list).to_csv('blockchain_info_test.csv', index = False)
 
 print("Store Meta Data")
 with open('MetaData.txt', 'w') as file:

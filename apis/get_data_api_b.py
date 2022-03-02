@@ -52,10 +52,15 @@ def get_pd_daily_histo_between_dates(pair, since, end):
 
     historical = client.get_historical_klines(pair, Client.KLINE_INTERVAL_1DAY, since, end)
     hist_df = pd.DataFrame(historical)
+
     hist_df.columns = ['Open_Time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Close_Time', 'Quote_Asset_Volume', 
                         'Number_of_Trades', 'TB_Base_Volume', 'TB_Quote_Volume', 'Ignore']
+    
 
     hist_df = hist_df.drop(['Quote_Asset_Volume', 'TB_Base_Volume', 'TB_Quote_Volume','Ignore'], axis=1)
+
+    hist_df['epoch_time'] = hist_df['Open_Time']
+    hist_df['epoch_time'] = hist_df['epoch_time'] / 1000
 
     hist_df['Open_Time'] = pd.to_datetime(hist_df['Open_Time']/1000, unit='s')
     hist_df['Close_Time'] = pd.to_datetime(hist_df['Close_Time']/1000, unit='s')
@@ -63,6 +68,10 @@ def get_pd_daily_histo_between_dates(pair, since, end):
     numeric_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
 
     hist_df[numeric_columns] = hist_df[numeric_columns].apply(pd.to_numeric, axis=1)
+
+    hist_df['mean_daily_price'] = hist_df.loc[:, ['Open', 'Close']].mean(axis=1) 
+
+    #print(hist_df)
 
     return(hist_df)
 
@@ -83,6 +92,7 @@ def get_pd_hourly_histo(pair, since):
     numeric_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
 
     hist_df[numeric_columns] = hist_df[numeric_columns].apply(pd.to_numeric, axis=1)
+
 
     return(hist_df)
 
@@ -169,3 +179,12 @@ def get_list_of_crypto_names():
 
 
     return(new_liste)
+
+# start_text = pd.to_datetime(1583107200, unit='s')
+# start_text = start_text.strftime("%d %b %Y") 
+# end_text = pd.to_datetime(1646179200, unit='s')
+# end_text = end_text.strftime("%d %b %Y") 
+
+# list1 = get_pd_daily_histo_between_dates('BTCUSDT', start_text, end_text)
+
+# list1.to_csv('blockchain_info_test_bin.csv')

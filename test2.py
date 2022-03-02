@@ -16,7 +16,7 @@ import datetime
 
 start = 1637656969
 end =   1640854725
-subreddit= 'altcoin'
+subreddit= 'CryptoCurrency'
 #crypto_pair = 'ETHUSDT'
 
 
@@ -27,6 +27,8 @@ def save_plot_link_relation(start, end, path_to_reddit_file, crypto_pair, path_t
 
 
     reddit = pd.read_pickle(path_to_reddit_file)
+
+    print(reddit.head())
 
     df2 = reddit[reddit.columns[reddit.columns.isin( get_list_of_available_cryptos())]]
 
@@ -104,34 +106,35 @@ def get_list_of_available_cryptos():
     return (liste_totale)
 
 
+def main():
+
+    liste_of_crypto_to_plot =  get_list_of_available_cryptos()
+    liste_of_crypto_to_plot = list(map(lambda x: x.upper(), liste_of_crypto_to_plot))
+    new_liste = list()
+    for i in range(len(liste_of_crypto_to_plot)):
+        if i%2 == 1 :
+            element = liste_of_crypto_to_plot[i]
+            new_liste.append(element+'USDT')
+            
+    print(new_liste)
 
 
-liste_of_crypto_to_plot =  get_list_of_available_cryptos()
-liste_of_crypto_to_plot = list(map(lambda x: x.upper(), liste_of_crypto_to_plot))
-new_liste = list()
-for i in range(len(liste_of_crypto_to_plot)):
-    if i%2 == 1 :
-        element = liste_of_crypto_to_plot[i]
-        new_liste.append(element+'USDT')
-          
-print(new_liste)
+    filepath = extract_full_reddit_token_frequency(start,end, subreddit)
 
 
-filepath = extract_full_reddit_token_frequency(start,end, subreddit)
+    chemin2 = os.getcwd()
+    chemin2= chemin2 + "/export/visuals/"
+
+    # Path
+    path = os.path.join(chemin2, subreddit)
+    
+    print(path)
+    os.mkdir(path)
 
 
-chemin2 = os.getcwd()
-chemin2= chemin2 + "/export/visuals/"
-
-# Path
-path = os.path.join(chemin2, subreddit)
-  
-print(path)
-os.mkdir(path)
+    for name in new_liste:
+        print(name)
+        save_plot_link_relation(start, end, filepath, name, path)
 
 
-for name in new_liste:
-    print(name)
-    save_plot_link_relation(start, end, filepath, name, path)
-
-
+main()
