@@ -12,48 +12,35 @@ from decimal import Decimal
 import os
 import sys
 
+
+working_dir = str(os.getcwd())
+
 # Insert the path of modules folder 
-sys.path.insert(0, str(os.getcwd())+'/BurnieYilmazRS19/dataPrep/BITCOIN/' )
-sys.path.insert(0, str(os.getcwd())+'/BurnieYilmazRS19/dataPrep/REDDIT/' )
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/BITCOIN/' )
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/' )
+
 
 from FeatureEng import get_crypto_data_treated
-from main_extract import extract_full_reddit_token_frequency
+#from main_extract import extract_full_reddit_token_frequency
 
 def get_reddit_crypto_corre(epoch_start, epoch_end, pair, subreddit):
     
     print("COIN DATA")
-
     target_list = ['mean_daily_price', 'Volume', 'Number_of_Trades', 'isPriceIncrease', 'priceVolatility']
-  
-
     #coin = pd.read_csv('./dataPrep/BITCOIN/blockchain_info_processed.csv')
-
     coin = get_crypto_data_treated(epoch_start, epoch_end, pair )
-
-
     print("REDDIT DATA")
+    #filepath = extract_full_reddit_token_frequency(epoch_start,epoch_end, subreddit)
+    #reddit = pd.read_pickle(filepath)
 
-    filepath = extract_full_reddit_token_frequency(epoch_start,epoch_end, subreddit)
-
-    #reddit = pd.read_pickle('./dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_041218.pkl')
-
-    reddit = pd.read_pickle(filepath)
+    reddit = pd.read_pickle( working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/CryptoMarkets_2021-10-15_2022-02-14.pkl')
 
     reddit.rename(index=str, columns={"day_time_stamp": "EpochDate"}, inplace=True)
-
+    coin.rename(index=str, columns={"epoch_time": "EpochDate"}, inplace=True)
     reddit = reddit[['EpochDate', 'no_submissions'] ]
-
     reddit['no_submissions'] = reddit['no_submissions'].pct_change(1)
-
     print("COMBINE DATA")
-
     combData = pd.merge(reddit, coin, on='EpochDate', how = 'left')
-
-
-
-
-
-
     print("CORRELATIONS")
 
     def round_value(x, th=0.0001):
@@ -74,15 +61,13 @@ def get_reddit_crypto_corre(epoch_start, epoch_end, pair, subreddit):
             for target in target_list:
                 allData[target] = allData[target].shift(shift)
         
-        p1 = allData[allData.EpochDate.apply(lambda x: (x >= 1483228800) & (x < 1513382400) )]
-        p2 = allData[allData.EpochDate.apply(lambda x: (x >= 1513382400) & (x < 1530230400) )]
-        p3 = allData[allData.EpochDate.apply(lambda x: (x >= 1530230400) & (x < 1542240000) )]
+        p1 = allData[allData.EpochDate.apply(lambda x: (x >= epoch_start) & (x < epoch_end) )]
         
         correl = pd.DataFrame(dict(
                     Metric = target_list
             ))
 
-        stage_list = ['allData', 'p1', 'p2', 'p3']
+        stage_list = ['allData']
 
         for stage in stage_list:
             exec(f"{stage}_SR = []")
@@ -90,7 +75,6 @@ def get_reddit_crypto_corre(epoch_start, epoch_end, pair, subreddit):
             exec(f"{stage}_isSig = []")
 
         for target in target_list:       
-
             for stage in stage_list:
                 
                 data = eval(f"{stage}.copy()")
@@ -128,7 +112,11 @@ def get_reddit_crypto_corre(epoch_start, epoch_end, pair, subreddit):
                 term = 'no_submissions',
                 target_list=target_list, 
                 combData = combData,
-                shift=shift).to_latex(index=False),
+                shift=shift).to_csv("saving_test.csv",index=False),
                 "\n\n"
         )
 
+
+
+
+get_reddit_crypto_corre(1634251200,1644792000 , 'ETHUSDT', subreddit = 1)
