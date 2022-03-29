@@ -2,8 +2,16 @@
 # # Extracting Reddit data from Pushshift API
 # ----------------------------------------------------------------------------------
 
+import os
+import sys
 
-from  BurnieYilmazRS19.dataPrep.REDDIT.text.extracting import TextExtractor
+working_dir = str(os.getcwd())
+
+# Insert the path of modules folder 
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
+
+
+from  extracting import TextExtractor
 import pandas as pd
 import json
 import datetime 

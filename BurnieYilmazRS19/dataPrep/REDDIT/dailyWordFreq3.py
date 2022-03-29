@@ -4,10 +4,18 @@
 
 import pandas as pd
 import numpy as np
-import os
 import matplotlib.pyplot as plt
-from  BurnieYilmazRS19.dataPrep.REDDIT.text.dataHandling import DataHandling
-from  BurnieYilmazRS19.dataPrep.REDDIT.text.vocabCounter import vocabCounter
+
+import os
+import sys
+
+working_dir = str(os.getcwd())
+
+# Insert the path of modules folder 
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
+
+from  dataHandling import DataHandling
+from  vocabCounter import vocabCounter
 
 from collections import Counter
 from itertools import chain

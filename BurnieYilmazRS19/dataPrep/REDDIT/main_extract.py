@@ -1,7 +1,17 @@
-from  BurnieYilmazRS19.dataPrep.REDDIT.dataExtracting1 import data_extracting
-from BurnieYilmazRS19.dataPrep.REDDIT. textProcessing2 import textprocess
-from  BurnieYilmazRS19.dataPrep.REDDIT.dailyWordFreq3 import dailywordfreq
 import os
+import sys
+
+working_dir = str(os.getcwd())
+
+# Insert the path of modules folder 
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/' )
+
+from  dataExtracting1 import data_extracting
+from textProcessing2 import textprocess
+from  dailyWordFreq3 import dailywordfreq
+
+
+
 
 import datetime
 
