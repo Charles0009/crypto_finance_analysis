@@ -30,7 +30,7 @@ from find_periods import cut_period_into_trends
 print("Load Data")
 
 
-def get_word_freq_results_csv(pair, start_date, end_date, subreddit):
+def get_word_freq_results_csv(pair, start_date, end_date, subreddit, precision_periods):
 
 
     if type(start_date) == int:
@@ -42,11 +42,10 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit):
     else:
         print('did nothing to transform dates')
 
-    filepath = extract_full_reddit_token_frequency(
-            start_date, end_date, subreddit)
-    wordFreqData = pd.read_pickle(filepath)
-    # name_for_saving_processed = working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/'+name_for_file+'.pkl'
-    # wordFreqData = pd.read_pickle(working_dir + '/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/Crypto_General_2021-10-16_2022-02-13.pkl')
+    # filepath = extract_full_reddit_token_frequency(
+    #         start_date, end_date, subreddit)
+    # wordFreqData = pd.read_pickle(filepath)
+    wordFreqData = pd.read_pickle(working_dir + '/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/CryptoCurrencies_2021-02-01_2022-02-01.pkl')
 
     print("Splitting Data and Descriptive Statistics")
 
@@ -59,9 +58,10 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit):
     #From inclusive to before
     # divide into periods of growth and recession 
 
-    liste_periods = cut_period_into_trends(pair, start_text, end_text, 0)
+    liste_periods = cut_period_into_trends(pair, start_text, end_text, 0, precision_periods)
 
-    # liste_periods = cut_period_into_trends("BTCUSDT", "2021-10-16", "2022-02-13", 0)
+    #liste_periods = cut_period_into_trends("BTCUSDT", "2021-10-16", "2022-02-13", 0, '3days')
+
     o =0
     liste_length =[]
     liste_of_subs = []
@@ -124,11 +124,11 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit):
 
     print("NO TOKENS AFTER FILTERING:", len(subsetnames))
 
-    print(subsetnames)
 
     print("TOTALS DATA")
 
     total_data = pd.DataFrame()
+
 
     for i, name in enumerate(subsetnames):
         total_data.at[i, 'token']  = name
@@ -136,7 +136,10 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit):
         p = 0
         while p < (len(liste_of_subs) - 1):
             name_for_section = 'tot_p'+str(p)
-            total_data.at[i, name_for_section] = sum(liste_of_subs[p][name])/sum(liste_of_subs[p]['no_submissions']) * 100
+            try: 
+                total_data.at[i, name_for_section] = sum(liste_of_subs[p][name])/sum(liste_of_subs[p]['no_submissions']) * 100
+            except: 
+                print("no subs for the period")
             p+=1
 
         print((i+1)/len(subsetnames), '...........................', end='\r')
@@ -172,67 +175,40 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit):
 
     print("WILCOXON DATA")
 
-    # WC_data = pd.DataFrame()
+    
+    WC_data = pd.DataFrame()
 
-    # for i, name in enumerate(subsetnames):
-    #     WC_data.at[i, 'token']  = name
+    for i, name in enumerate(subsetnames):
+        WC_data.at[i, 'token']  = name
+        k = 2 
+        while k < (total_data.shape[1]-1):
+            try:
+                name_column1 = 'change_p'+str(k-2) +'_p'+str(k-1)
+                name_column2 = 'wc_p'+str(k-2) +'_p'+str(k-1)
 
-    #     l = 0
-    #     while l < (len(liste_of_subs) - 1):
+                name_investigated_column1 = 'tot_p'+str(k-2)
+                name_investigated_column2 = 'tot_p'+str(k-1)
+                
+                WC_data.at[i, name_column1] = per_change(index=i, col1=name_investigated_column1, col2=name_investigated_column2)
+                WC_data.at[i, name_column2] = pValueGen(liste_of_subs[k-2],liste_of_subs[k-1],name,alternative_th='two-sided')
+            except:
+                print("")
 
-    #         WC_data.at[i, 'change_p1_p2'] = per_change(index=i, col1='tot_p1', col2='tot_p2')
-    #         WC_data.at[i, 'wc_p1_p2'] = pValueGen(p1,p2,name,alternative_th='two-sided')
-
-    #         l += 1
+            k+= 1
 
 
+        print((i+1)/len(subsetnames), '...........................', end='\r')
 
-
-    #     try:
-    #         WC_data.at[i, 'change_p1_p2'] = per_change(index=i, col1='tot_p1', col2='tot_p2')
-    #         WC_data.at[i, 'wc_p1_p2'] = pValueGen(p1,p2,name,alternative_th='two-sided')
-            
-    #         WC_data.at[i, 'change_p2_p3'] = per_change(index=i, col1='tot_p2', col2='tot_p3')
-    #         WC_data.at[i, 'wc_p2_p3'] = pValueGen(p2,p3,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p3_p4'] = per_change(index=i, col1='tot_p3', col2='tot_p4')
-    #         WC_data.at[i, 'wc_p3_p4'] = pValueGen(p3,p4,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p4_p5'] = per_change(index=i, col1='tot_p4', col2='tot_p5')
-    #         WC_data.at[i, 'wc_p4_p5'] = pValueGen(p4,p5,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p5_p6'] = per_change(index=i, col1='tot_p5', col2='tot_p6')
-    #         WC_data.at[i, 'wc_p5_p6'] = pValueGen(p5,p6,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p6_p7'] = per_change(index=i, col1='tot_p6', col2='tot_p7')
-    #         WC_data.at[i, 'wc_p6_p7'] = pValueGen(p6,p7,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p7_p8'] = per_change(index=i, col1='tot_p7', col2='tot_p8')
-    #         WC_data.at[i, 'wc_p7_p8'] = pValueGen(p7,p8,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p8_p9'] = per_change(index=i, col1='tot_p8', col2='tot_p9')
-    #         WC_data.at[i, 'wc_p8_p9'] = pValueGen(p8,p9,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p9_p10'] = per_change(index=i, col1='tot_p9', col2='tot_p10')
-    #         WC_data.at[i, 'wc_p9_p10'] = pValueGen(p9,p10,name,alternative_th='two-sided')
-
-    #         WC_data.at[i, 'change_p10_p11'] = per_change(index=i, col1='tot_p10', col2='tot_p11')
-    #         WC_data.at[i, 'wc_p10_p11'] = pValueGen(p10,p11,name,alternative_th='two-sided')
-
-    #     except:
-    #         print("")
-
-    #     print((i+1)/len(subsetnames), '...........................', end='\r')
 
 
     # WC_data.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/resultsData/wilcoxon_rank_long_terms_Bitcoin.csv')
     
-    # name_for_saving_third_file = 'wilcoxon_rank' + pair + subreddit + start_text + end_text
+    name_for_saving_third_file = 'wilcoxon_rank' + pair + subreddit + start_text + end_text
 
-    # total_data.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_third_file+'.csv')
-
-
+    WC_data.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_third_file+'.csv')
 
 
 
-get_word_freq_results_csv('ETHUSDT', 1634256000, 1640995200, 'CryptoCurrencies')
+
+
+get_word_freq_results_csv('LUNAUSDT', 1612180500, 1643716500, 'CryptoCurrencies', '3days')
