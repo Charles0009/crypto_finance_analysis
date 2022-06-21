@@ -2,8 +2,16 @@
 # # Extracting Reddit data from Pushshift API
 # ----------------------------------------------------------------------------------
 
+import os
+import sys
 
-from text.extracting import TextExtractor
+working_dir = str(os.getcwd())
+
+# Insert the path of modules folder 
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
+
+
+from  extracting import TextExtractor
 import pandas as pd
 import json
 import datetime 
@@ -24,8 +32,14 @@ def data_extracting(start, end, subreddit, name_for_file_extracting):
                 # end=1640823600   
          )
 
+        print(obj)
+
         #Extract data:
-        obj.extract_data()
+        try:
+                obj.extract_data()
+        except TypeError:
+                print("type error in data extracting")
+                return('null')
 
         #Stores collected data in a dataframe:
         data = pd.DataFrame({

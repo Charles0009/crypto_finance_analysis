@@ -2,16 +2,23 @@
 # # Processing Reddit Data
 # ----------------------------------------------------------------------------------
 
+import os
+import sys
 
-from text.processing import TextProcessor
-from text.dataHandling import DataHandling
+working_dir = str(os.getcwd())
+
+# Insert the path of modules folder 
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
+
+
+from  processing import TextProcessor
+from  dataHandling import DataHandling
 
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor
 from multiprocessing import freeze_support
 
 import pandas as pd
-import os
 
 def termProcessor(data): return(TextProcessor(data.text).processText())
 

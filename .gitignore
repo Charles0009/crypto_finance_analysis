@@ -136,19 +136,23 @@ dmypy.json
 
 ### data folders because of size limit ###
 
-BurnieYilmazRS19/dataPrep/GOOGLE/
-BurnieYilmazRS19/dataPrep/BITCOIN/
-BurnieYilmazRS19/dataPrep/VADER/
+GOOGLE/
+BITCOIN/
+VADER/
 BurnieYilmazRS19/dataPrep/REDDIT/__pycache__
 BurnieYilmazRS19/dataPrep/REDDIT/data
 BurnieYilmazRS19/dataPrep/REDDIT/text/__pycache__
 
+data/
+export/
 
 ### binance api ### 
 .environment_binance/
 
 ### type pkl files ####
 *.pkl
-
+*.csv
+*.png
 ### VS Code ###
 .vscode/
+.vs/

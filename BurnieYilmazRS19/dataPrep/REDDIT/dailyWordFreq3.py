@@ -5,8 +5,17 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from text.dataHandling import DataHandling
-from text.vocabCounter import vocabCounter
+
+import os
+import sys
+
+working_dir = str(os.getcwd())
+
+# Insert the path of modules folder 
+sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
+
+from  dataHandling import DataHandling
+from  vocabCounter import vocabCounter
 
 from collections import Counter
 from itertools import chain
@@ -16,7 +25,9 @@ def dailywordfreq(start, end, name_for_saving_processed):
 
     print("Collecting Data")
     dataObj = DataHandling()
-    dataObj.collectData(dataPath='/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/', regexpr=r'^subTerms', verbose=True)
+    current_directory = str(os.getcwd())
+
+    dataObj.collectData(dataPath=current_directory+"/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/", regexpr=r'^subTerms', verbose=True)
     dataObj.aggData()
 
     data = dataObj.selectFirstFrame()
@@ -60,7 +71,3 @@ def dailywordfreq(start, end, name_for_saving_processed):
 #     df2 = pd.read_pickle('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_041218.pkl')
 
 #     df2.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_0666.csv')
-
-
-# dailywordfreq( start=1630023150, 
-#                 end=1640823600   )
