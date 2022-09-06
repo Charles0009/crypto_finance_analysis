@@ -1,7 +1,7 @@
 # crypto_finance_anlysis
 
 
-**Still in active development with hopes for a first release in July 2022**
+**Still in active development with hopes for a first release at the begining of 2023**
 
 
 
@@ -13,14 +13,12 @@ __It is decomposed into multiple parts:__
 3. Word processing for REDDIT and Twitter 
 
 
-
-
 # FINANCIAL ANALYSIS
-
+A useful repository of financial indicators. They are isolated for the moment withe the hope to combine them to give a unified indicator on stock market analysis.
 
 
 # WORD PROCESSING 
-
+Word processing using REDDIT and Twitter with standardisation of language, sentiment analysis and word recognition patterns. 
 
 
 
