@@ -45,7 +45,6 @@ def insert_into_existind_db(symbol_name, start_date):
 
    try:
       #Executing the SQL command
-
       for i in range(0, size_df-1):
          row_val = hist_df[i:i+1].values.flatten().tolist()
          db_cursor.execute(insert_stmt, row_val)

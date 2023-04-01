@@ -9,19 +9,19 @@ import datetime
 
 def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
     working_dir = str(os.getcwd())
-    print("working_dir mmmmm", working_dir)
+    print("working_dir", working_dir)
     try : 
     # Insert the path of modules folder 
-        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/' )
-        from  dataExtracting1 import data_extracting
-        from textProcessing2 import textprocess
-        from  dailyWordFreq3 import dailywordfreq
+        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/TWITTER/' )
+        from  twitter_dataExtracting1 import data_extracting
+        from twitter_textProcessing2 import textprocess
+        from  twitter_dailyWordFreq3 import dailywordfreq
 
     except ModuleNotFoundError :
-        sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/' )
-        from  dataExtracting1 import data_extracting
-        from textProcessing2 import textprocess
-        from  dailyWordFreq3 import dailywordfreq
+        sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/' )
+        from  twitter_dataExtracting1 import data_extracting
+        from twitter_textProcessing2 import textprocess
+        from  twitter_dailyWordFreq3 import dailywordfreq
 
 
 
@@ -39,12 +39,12 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
 
     current_directory = str(os.getcwd())
 
-    name_for_file = subreddit+"_"+start_in_date+"_"+end_in_date
+    name_for_file ='twitter_'+subreddit+"_"+start_in_date+"_"+end_in_date
     try : 
         print("data extracting 2")
-        name_for_file_extracting = current_directory+'/BurnieYilmazRS19/dataPrep/REDDIT/data/extracting/'+name_for_file+'.pkl'
+        name_for_file_extracting = current_directory+'/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_extracting/'+name_for_file+'.pkl'
          #call to the api for extraction
-        print("name_for_file_extracting 22 ",name_for_file_extracting)
+        print("name_for_file_extracting ",name_for_file_extracting)
         data_extracting( start=start_epoch, 
                         end=end_epoch ,
                         subreddit=subreddit,
@@ -55,8 +55,8 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
     except FileNotFoundError:
         try: 
             print("data extracting 4")
-            name_for_file_extracting = current_directory+'/dataPrep/REDDIT/data/extracting/'+name_for_file+'.pkl'
-            print("name_for_file_extracting 44 ",name_for_file_extracting)
+            name_for_file_extracting = current_directory+'/dataPrep/TWITTER/data/twitter_extracting/'+name_for_file+'.pkl'
+            print("name_for_file_extracting ",name_for_file_extracting)
             #call to the api for extraction
             data_extracting( start=start_epoch, 
                             end=end_epoch ,
@@ -68,7 +68,7 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
             
         except FileNotFoundError:            
             print("data extracting 3")
-            name_for_file_extracting = current_directory+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/data/extracting/'+name_for_file+'.pkl'
+            name_for_file_extracting = current_directory+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_extracting/'+name_for_file+'.pkl'
             #call to the api for extraction
             data_extracting( start=start_epoch, 
                             end=end_epoch ,
@@ -82,7 +82,7 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
 
     print("name for file extracting : " + name_for_file_extracting)
     try : 
-        name_for_saving_processed = current_directory+'/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/'+name_for_file+'.pkl'
+        name_for_saving_processed = current_directory+'/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_processing/twitter_tokenFreq/'+name_for_file+'.pkl'
         
         print("name for file processing : " + name_for_saving_processed)
 
@@ -95,7 +95,7 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
         print("name for save file : " + name_for_saving_processed)
     except FileNotFoundError:
         try:
-            name_for_saving_processed = current_directory+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/'+name_for_file+'.pkl'
+            name_for_saving_processed = current_directory+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_processing/twitter_tokenFreq/'+name_for_file+'.pkl'
             
             print("name for file processing : " + name_for_saving_processed)
 
@@ -108,7 +108,7 @@ def extract_full_reddit_token_frequency(start_epoch, end_epoch, subreddit):
             print("name for save file : " + name_for_saving_processed)
 
         except FileNotFoundError:
-            name_for_saving_processed = current_directory+'/dataPrep/REDDIT/data/processing/tokenFreq/'+name_for_file+'.pkl'
+            name_for_saving_processed = current_directory+'/dataPrep/TWITTER/data/twitter_processing/twitter_tokenFreq/'+name_for_file+'.pkl'
         
             print("name for file processing : " + name_for_saving_processed)
 

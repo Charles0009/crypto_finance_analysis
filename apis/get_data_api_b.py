@@ -1,4 +1,5 @@
 import json
+import time
 from binance import Client, ThreadedWebsocketManager, ThreadedDepthCacheManager
 from defer import return_value
 import pandas as pd
@@ -49,10 +50,12 @@ def get_pd_daily_histo(pair, since):
 def get_pd_daily_histo_between_dates(pair, since, end):
         
     ##### get historical data
+    if float(since).is_integer():
+        since = str(time.strftime('%d %b, %Y', time.localtime(since)))
+        end = str(time.strftime('%d %b, %Y', time.localtime(end)))
 
     historical = client.get_historical_klines(pair, Client.KLINE_INTERVAL_1DAY, since, end)
     hist_df = pd.DataFrame(historical)
-
     hist_df.columns = ['Open_Time', 'Open', 'High', 'Low', 'Close', 'Volume', 'Close_Time', 'Quote_Asset_Volume', 
                         'Number_of_Trades', 'TB_Base_Volume', 'TB_Quote_Volume', 'Ignore']
     
@@ -91,7 +94,7 @@ def get_pd_3_days_histo_between_dates(pair, since, end):
     hist_df['epoch_time'] = hist_df['Open_Time']
     hist_df['epoch_time'] = hist_df['epoch_time'] / 1000
 
-    hist_df['Open_Time'] = pd.to_datetime(hist_df['Open_Time']/1000, unit='s')
+    hist_df['Open_Time'] = pd.to_datetime(hist_df['Open_Time']/1000, unit='s')  
     hist_df['Close_Time'] = pd.to_datetime(hist_df['Close_Time']/1000, unit='s')
 
     numeric_columns = ['Open', 'High', 'Low', 'Close', 'Volume']
@@ -107,7 +110,9 @@ def get_pd_3_days_histo_between_dates(pair, since, end):
 def get_pd_weekly_histo_between_dates(pair, since, end):
         
     ##### get historical data
-
+    print('Inside the get weekly history')
+    print('Pair : ', pair)
+    
     historical = client.get_historical_klines(pair, Client.KLINE_INTERVAL_1WEEK, since, end)
     hist_df = pd.DataFrame(historical)
 
@@ -246,6 +251,9 @@ def get_list_of_crypto_names():
 # end_text = pd.to_datetime(1646179200, unit='s')
 # end_text = end_text.strftime("%d %b %Y") 
 
-# list1 = get_pd_daily_histo_between_dates('BTCUSDT', start_text, end_text)
+# list1 = get_pd_daily_histo_between_dates('BNBUSDT', 1650204350, 1655474750)
+# print(list1.head(2))
 
 # list1.to_csv('blockchain_info_test_bin.csv')
+# info = get_pd_daily_histo_between_dates('BNBUSDT', 1650204350, 1655388350)
+# print(info)

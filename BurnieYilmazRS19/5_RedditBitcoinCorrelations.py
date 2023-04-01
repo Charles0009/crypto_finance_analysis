@@ -5,11 +5,22 @@ import os
 import sys
 working_dir = str(os.getcwd())
 # Insert the path of modules folder
-sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/BITCOIN/')
-sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/')
+try :
+    sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/BITCOIN/')
+    sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/')
 
-from FeatureEng import get_crypto_data_treated
-from main_extract import extract_full_reddit_token_frequency
+    from FeatureEng import get_crypto_data_treated
+    from main_extract import extract_full_reddit_token_frequency
+
+except ModuleNotFoundError :
+    sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/BITCOIN/')
+    sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/')
+
+    from FeatureEng import get_crypto_data_treated
+    from main_extract import extract_full_reddit_token_frequency
+
+
+
 from click import command
 import pandas as pd
 import numpy as np
@@ -35,6 +46,7 @@ def get_reddit_crypto_corre(epoch_start, epoch_end, pair, subreddit):
     # reddit = pd.read_pickle( working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/CryptoMarkets_2021-10-15_2022-02-14.pkl')
     reddit.rename(index=str, columns={
                   "day_time_stamp": "EpochDate"}, inplace=True)
+                  
     coin.rename(index=str, columns={"epoch_time": "EpochDate"}, inplace=True)
     reddit = reddit[['EpochDate', 'no_submissions']]
     reddit['no_submissions'] = reddit['no_submissions'].pct_change(1)

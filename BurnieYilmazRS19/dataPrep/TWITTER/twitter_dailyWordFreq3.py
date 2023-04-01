@@ -12,13 +12,13 @@ import sys
 working_dir = str(os.getcwd())
 try :
     # Insert the path of modules folder 
-    sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
-    from  dataHandling import DataHandling
-    from  vocabCounter import vocabCounter
+    sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/TWITTER/text/' )
+    from  twitter_dataHandling import DataHandling
+    from  twitter_vocabCounter import vocabCounter
 except ModuleNotFoundError :
-    sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
-    from  dataHandling import DataHandling
-    from  vocabCounter import vocabCounter
+    sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/text/' )
+    from  twitter_dataHandling import DataHandling
+    from  twitter_vocabCounter import vocabCounter
 
 
 
@@ -33,9 +33,9 @@ def dailywordfreq(start, end, name_for_saving_processed):
     current_directory = str(os.getcwd())
 
     try:
-        dataObj.collectData(dataPath=current_directory+"/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/", regexpr=r'^subTerms', verbose=True)
+        dataObj.collectData(dataPath=current_directory+"/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_processing/twitter_terms/", regexpr=r'^subTerms', verbose=True)
     except:
-        dataObj.collectData(dataPath=current_directory+"/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/", regexpr=r'^subTerms', verbose=True)
+        dataObj.collectData(dataPath=current_directory+"/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_processing/twitter_terms/", regexpr=r'^subTerms', verbose=True)
 
     
     dataObj.aggData()
@@ -58,7 +58,7 @@ def dailywordfreq(start, end, name_for_saving_processed):
         step = 86400
         )
 
-    #vc.getRaw().to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/daily8888.csv')
+    #vc.getRaw().to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/TWITTER/data/processing/tokenFreq/daily8888.csv')
 
 
     del data
@@ -78,6 +78,6 @@ def dailywordfreq(start, end, name_for_saving_processed):
     dataf = vc.getCountData()
     dataf.to_pickle(name_for_saving_processed)
 
-#     df2 = pd.read_pickle('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_041218.pkl')
+#     df2 = pd.read_pickle('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/TWITTER/data/processing/tokenFreq/dailyTokenFreq_041218.pkl')
 
-#     df2.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/dailyTokenFreq_0666.csv')
+#     df2.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/TWITTER/data/processing/tokenFreq/dailyTokenFreq_0666.csv')

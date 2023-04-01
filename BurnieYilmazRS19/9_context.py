@@ -8,12 +8,19 @@ import argparse
 from dataPrep.REDDIT.text.dataHandling import DataHandling
 from dataPrep.REDDIT.text.vocabCounter import vocabCounter
 
+
+
+
 print("Collecting Data")
 dataObj = DataHandling()
 dataObj.collectData(dataPath='/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/terms/', regexpr=r'^subTerms', verbose=True)
 dataObj.aggData()
 
+
 termsData = dataObj.selectFirstFrame()
+
+print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^')
+print(termsData.head(20))
 
 del dataObj
 

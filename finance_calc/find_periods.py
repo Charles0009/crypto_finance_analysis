@@ -14,13 +14,35 @@ import os
 import sys
 import time
 import datetime
+from pathlib import Path
 
-# Insert the path of modules folder
-sys.path.insert(0, str(os.getcwd())+'/apis/')
 
-from get_data_api_b import get_pd_daily_histo_between_dates
-from get_data_api_b import get_pd_weekly_histo_between_dates
-from get_data_api_b import get_pd_3_days_histo_between_dates
+working_dir = str(os.getcwd())
+
+try :
+    # Insert the path of modules folder
+    sys.path.insert(0, working_dir+'/apis/')
+
+    from get_data_api_b import get_pd_daily_histo_between_dates
+    from get_data_api_b import get_pd_weekly_histo_between_dates
+    from get_data_api_b import get_pd_3_days_histo_between_dates
+
+except ModuleNotFoundError :
+    try:
+        sys.path.insert(0, working_dir+'/crypto_finance_anlysis/apis/')
+
+        from get_data_api_b import get_pd_daily_histo_between_dates
+        from get_data_api_b import get_pd_weekly_histo_between_dates
+        from get_data_api_b import get_pd_3_days_histo_between_dates
+    except ModuleNotFoundError :
+        path_for_finance_calc = Path(working_dir).parent
+        sys.path.insert(0, str(path_for_finance_calc)+'/apis/' )
+
+        from get_data_api_b import get_pd_daily_histo_between_dates
+        from get_data_api_b import get_pd_weekly_histo_between_dates
+        from get_data_api_b import get_pd_3_days_histo_between_dates
+
+
 
 plt.rcParams['figure.figsize'] = [12, 7]
 plt.rc('font', size=14)

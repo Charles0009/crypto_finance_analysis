@@ -93,8 +93,8 @@ class DataHandling(object):
         for i, df in enumerate(self.__dataList):
 
 
-            #path_for_file = current_directory+"/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/{folder}/{label}_{i}.pkl{folder}/{label}_{i}.pkl"
+            #path_for_file = current_directory+"/BurnieYilmazRS19/dataPrep/TWITTER/data/processing/{folder}/{label}_{i}.pkl{folder}/{label}_{i}.pkl"
             try :
-                exec(f'df.to_pickle("{current_directory}/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/{folder}/{label}_{i}.pkl")')
+                exec(f'df.to_pickle("{current_directory}/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_processing/{folder}/{label}_{i}.pkl")')
             except:
-                exec(f'df.to_pickle("{current_directory}/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/{folder}/{label}_{i}.pkl")')
+                exec(f'df.to_pickle("{current_directory}/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/data/twitter_processing/{folder}/{label}_{i}.pkl")')

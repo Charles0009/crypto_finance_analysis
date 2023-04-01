@@ -1,5 +1,8 @@
 import re
+import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer as SIA
+nltk.downloader.download('vader_lexicon')
+
 
 class helper(object):
 
@@ -39,6 +42,8 @@ class helper(object):
             if re.search(r"(usd|\$|(us )?dollar(s)?)",  submission_text): return(True)
         if term == "bitcoin":
             if re.search(r"(\b)(bitcoin|bitcoins|btc|xbt)\b",  submission_text): return(True)
+        else :
+            if re.search(term,  submission_text): return(True)
         return(False)
 
     @staticmethod
@@ -49,18 +54,30 @@ class helper(object):
             return("")
 
     @staticmethod
-    def labelCounterTerms(data,i):
+    def labelCounterTerms(compressed_data,i):
+        data = compressed_data[0]
+        liste_of_words = compressed_data[1]
 
         countsData = dict()
 
         countsData['EpochDate'] = i
 
+        # print("\n \n data !!!!!!!!!!!!!!!! ", type(data))
+        # # print("\n \n  liste of _words  : ", liste_of_words)
+        # print("\n \n  iiiiiiiiiiiiiiiiiiii  : ", type(i)) 
+
         data2 = data[(data.time_stamp >= i) & (data.time_stamp < i + 86400)]
 
         countsData['no_submissions'] = len(data2)
 
-        for word in ["tax", "ban", "DMS", "bitcoin"]:    
-            countsData[f'{word}_NEG'] = (data2[f'{word}_VADER'] == 'NEG').sum()
-            countsData[f'{word}_NEU'] = (data2[f'{word}_VADER'] == 'NEU').sum()
-            countsData[f'{word}_POS'] = (data2[f'{word}_VADER'] == 'POS').sum()        
+        # for word in ["tax", "ban", "DMS", "bitcoin"]:  
+        for term in liste_of_words:  
+            # print("term ::::::::::::::::::::::::::::::::::::::::: ", term)
+            countsData[f'{term}_NEG'] = (data2[f'{term}_VADER'] == 'NEG').sum()
+            countsData[f'{term}_NEU'] = (data2[f'{term}_VADER'] == 'NEU').sum()
+            countsData[f'{term}_POS'] = (data2[f'{term}_VADER'] == 'POS').sum()     
+        
+        # print(" \n couuuuuuuuuuuuuuuuuuuuuuuuuunt data ")
+        # print(countsData)
+
         return(countsData)

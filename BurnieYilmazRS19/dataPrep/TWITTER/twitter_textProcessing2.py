@@ -9,13 +9,13 @@ working_dir = str(os.getcwd())
 
 try :
 # Insert the path of modules folder 
-        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
-        from  processing import TextProcessor
-        from  dataHandling import DataHandling
+        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/TWITTER/text/' )
+        from  twitter_processing import TextProcessor
+        from  twitter_dataHandling import DataHandling
 except ModuleNotFoundError :
-        sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
-        from  processing import TextProcessor
-        from  dataHandling import DataHandling
+        sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/text/' )
+        from  twitter_processing import TextProcessor
+        from  twitter_dataHandling import DataHandling
 
 from datetime import datetime
 from concurrent.futures import ProcessPoolExecutor
@@ -33,7 +33,7 @@ def textprocess(name_for_file_extracting):
 
 
         print("Submissions data loaded - ", datetime.now())
-        #print(pd.read_pickle('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/REDDIT/data/extracting/submissions_041218.pkl'))
+        #print(pd.read_pickle('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/dataPrep/TWITTER/data/extracting/submissions_041218.pkl'))
         print("name_for_file_extracting ", name_for_file_extracting)
         dataObj = DataHandling(data_frame = pd.read_pickle(name_for_file_extracting))
         dataObj.removeExcludedRows()
@@ -53,6 +53,6 @@ def textprocess(name_for_file_extracting):
 
         print(dataObj.getDataList())
 
-        dataObj.outputDataFrames(folder = 'terms', label = 'subTerms_tests')
+        dataObj.outputDataFrames(folder = 'twitter_terms', label = 'subTerms_tests')
 
 # textprocess()

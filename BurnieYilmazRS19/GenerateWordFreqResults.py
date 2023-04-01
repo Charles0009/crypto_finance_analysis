@@ -11,26 +11,41 @@ import sys
 import os
 import time
 from calendar import timegm
-
-working_dir = str(os.getcwd())
-
-# Insert the path of modules folder 
-sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/' )
-sys.path.insert(0, working_dir+'/finance_calc/' )
-
-
-
 from scipy.stats import mannwhitneyu 
-from main_extract import extract_full_reddit_token_frequency
-from find_periods import cut_period_into_trends
-
-
+from pathlib import Path
 
 
 print("Load Data")
 
 
 def get_word_freq_results_csv(pair, start_date, end_date, subreddit, precision_periods):
+
+    working_dir = str(os.getcwd())
+    print("working_dir /////////////////////" + working_dir)
+
+    # Insert the path of modules folder
+
+    try : 
+
+        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/' )
+        sys.path.insert(0, working_dir+'/finance_calc/' )
+        from main_extract import extract_full_reddit_token_frequency
+        from find_periods import cut_period_into_trends
+
+    except ModuleNotFoundError :
+        try:
+            sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/' )
+            sys.path.insert(0, working_dir+'/crypto_finance_anlysis/finance_calc/' )
+            from main_extract import extract_full_reddit_token_frequency
+            from find_periods import cut_period_into_trends
+        except ModuleNotFoundError :
+            sys.path.insert(0, working_dir+'/dataPrep/REDDIT/' )
+            path_for_finance_calc = Path(working_dir).parent
+            sys.path.insert(0, str(path_for_finance_calc)+'/finance_calc/' )
+
+            from main_extract import extract_full_reddit_token_frequency
+            from find_periods import cut_period_into_trends
+
 
 
     if type(start_date) == int:
@@ -42,10 +57,10 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit, precision_p
     else:
         print('did nothing to transform dates')
 
-    # filepath = extract_full_reddit_token_frequency(
-    #         start_date, end_date, subreddit)
-    # wordFreqData = pd.read_pickle(filepath)
-    wordFreqData = pd.read_pickle(working_dir + '/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/CryptoCurrencies_2021-02-01_2022-02-01.pkl')
+    filepath = extract_full_reddit_token_frequency(
+            start_date, end_date, subreddit)
+    wordFreqData = pd.read_pickle(filepath)
+    # wordFreqData = pd.read_pickle(working_dir + '/BurnieYilmazRS19/dataPrep/REDDIT/data/processing/tokenFreq/CryptoCurrencies_2021-02-01_2022-02-01.pkl')
 
     print("Splitting Data and Descriptive Statistics")
 
@@ -102,9 +117,10 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit, precision_p
     descData['subPerDay'] = descData['no_submissions']/descData['no_days']
 
     name_for_saving_first_file = 'descriptive_stats' + pair + subreddit + start_text + end_text
-
-    descData.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_first_file+'.csv')
-
+    try : 
+        descData.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_first_file+'.csv')
+    except :
+        descData.to_csv(working_dir + '/crypto_finance_anlysis/BurnieYilmazRS19/resultsData/' + name_for_saving_first_file+'.csv')
     del descData
 
     #############################################################################################################################################################
@@ -147,8 +163,10 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit, precision_p
     # total_data.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/resultsData/percent_totals_long_terms_Bitcoin.csv')
 
     name_for_saving_second_file = 'percent_totals' + pair + subreddit + start_text + end_text
-
-    total_data.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_second_file+'.csv')
+    try :
+        total_data.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_second_file+'.csv')
+    except :
+        total_data.to_csv(working_dir + '/crypto_finance_anlysis/BurnieYilmazRS19/resultsData/' + name_for_saving_second_file+'.csv')
 
 
 
@@ -204,11 +222,17 @@ def get_word_freq_results_csv(pair, start_date, end_date, subreddit, precision_p
     # WC_data.to_csv('/mnt/c/Users/charl/Desktop/finance_perso/BurnieYilmazRS19/resultsData/wilcoxon_rank_long_terms_Bitcoin.csv')
     
     name_for_saving_third_file = 'wilcoxon_rank' + pair + subreddit + start_text + end_text
+    
+    print('NAME FOR SAVING CSV RESULT DATA FILE : ' + working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_third_file+'.csv')
 
-    WC_data.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_third_file+'.csv')
+    try : 
+        WC_data.to_csv(working_dir + '/BurnieYilmazRS19/resultsData/' + name_for_saving_third_file+'.csv')
+    except:
+        WC_data.to_csv(working_dir + '/crypto_finance_anlysis/BurnieYilmazRS19/resultsData/' + name_for_saving_third_file+'.csv')
+
+    return filepath
 
 
 
 
-
-get_word_freq_results_csv('LUNAUSDT', 1612180500, 1643716500, 'CryptoCurrencies', '3days')
+# get_word_freq_results_csv('BTCUSDT', 1648771200, 1659312000, 'CryptoCurrencies', '3days')

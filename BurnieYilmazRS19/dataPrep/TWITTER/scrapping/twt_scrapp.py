@@ -47,6 +47,15 @@ def get_name_for_url_quotes(df_twts):
     return(final_list)
 
 
-test2 = call_for_tweeter('parabolic_matt', 100, 100)
-# test = get_nb_followers('parabolic_matt')
-print(test2)
+# test2 = call_for_tweeter('elonmusk', 100, 100)
+# # test = get_nb_followers('parabolic_matt')
+# print(test2)
+
+
+# Configure
+c = twint.Config()
+c.Username = "elonmusk"
+c.Search = "great"
+
+# Run
+twint.run.Search(c)

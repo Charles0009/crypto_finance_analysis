@@ -14,15 +14,15 @@ working_dir = str(os.getcwd())
 print("working_dir pppp", working_dir)
 # Insert the path of modules folder 
 try :
-        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
-        from  extracting import TextExtractor
+        sys.path.insert(0, working_dir+'/BurnieYilmazRS19/dataPrep/TWITTER/text/' )
+        from  twitter_extracting import TextExtractor
 except ModuleNotFoundError :
         try: 
-                sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/REDDIT/text/' )
-                from  extracting import TextExtractor
+                sys.path.insert(0, working_dir+'/crypto_finance_anlysis/BurnieYilmazRS19/dataPrep/TWITTER/text/' )
+                from  twitter_extracting import TextExtractor
         except ModuleNotFoundError :
-                sys.path.insert(0, working_dir+'/dataPrep/REDDIT/text/' )
-                from  extracting import TextExtractor
+                sys.path.insert(0, working_dir+'/dataPrep/TWITTER/text/' )
+                from  twitter_extracting import TextExtractor
 
 
 

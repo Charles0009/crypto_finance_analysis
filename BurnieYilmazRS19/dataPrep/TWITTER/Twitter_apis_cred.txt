@@ -1,0 +1,10 @@
+Key
+SPwY1EBmWAXvORRh3EzTPvkzh
+key_secret
+EUA0jsIzbas9afL07XV1MCWedZeUfEsavVSt0omn1VKncciU4W
+bearezr_token
+AAAAAAAAAAAAAAAAAAAAAHiDkgEAAAAAclqEjVRDRJcveZ8yCYM7gao3aE0%3DwJzfxyaJ6OzoxCor3obBRITVjGwrIfmtAk4KRnrwYqf1Ay5KED
+access token
+1325801213431050241-7TJ2ts9Xlvx9a18oAOENA0bYUteRFn
+access token secret 
+XaKcYbdrL0Su8KAFAsGUzCiGVat2CQ8MnL4gXLlbYzU4B
